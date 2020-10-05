@@ -4,7 +4,10 @@ A repository to play around with different WebAssembly implementations.
 
 The primary focus is to pick a benchmark, such as solving and ordinary differential equation (useful for covid-visualisation) and compare different WebAssembly implementations to javascript.
 For this we can choose some simple ODE with known result, such as e.g. 
+
 dy/dx = -y
+y(0) = 1
+
 with the known exact solution y = exp(-x).
 
 We can compare e.g.

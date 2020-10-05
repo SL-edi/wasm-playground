@@ -6,6 +6,7 @@ The primary focus is to pick a benchmark, such as solving and ordinary different
 For this we can choose some simple ODE with known result, such as e.g. 
 
 dy/dx = -y
+
 y(0) = 1
 
 with the known exact solution y = exp(-x).

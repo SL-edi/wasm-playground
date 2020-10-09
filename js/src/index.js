@@ -8,8 +8,9 @@ const startBenchmark = () => {
 
   let result;
 
+  const start = performance.now();
   //Repeat the calculation many times to get good timing estimates
-  for (let i=0; i<100; i++) {
+  for (let i=0; i<10; i++) {
     const t0 = 0;
     const y0 = [1];
     const tFinal = 1.0;
@@ -17,6 +18,8 @@ const startBenchmark = () => {
     const integrator = rk4(y0, deriv, t0, tFinal/nsteps );
     result = integrator.steps(nsteps).y;
   }
+  const end = performance.now()
+  console.log(end-start);
 
   const expectedResult = Math.exp(-1.0);
 

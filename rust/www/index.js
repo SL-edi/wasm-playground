@@ -4,7 +4,7 @@ const startBenchmark = () => {
     let value;
     
     const start = performance.now();
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
         value = wasm.integrate_exp(0.0, 1.0, 1.0, 1e6);
     }
     const end = performance.now();
@@ -14,7 +14,7 @@ const startBenchmark = () => {
 
     document.getElementById('result').innerHTML = value;
     document.getElementById('expected').innerHTML = expectedResult;
-    document.getElementById('diff').innerHTML = result - expectedResult;
+    document.getElementById('diff').innerHTML = value - expectedResult;
 }
 
 window.startBenchmark = startBenchmark;

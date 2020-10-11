@@ -3,9 +3,10 @@ import * as wasm from 'ode-test';
 const startBenchmark = () => {
     let value;
     
+    const nSteps = +document.getElementById('nsteps_input').value;
     const start = performance.now();
-    for (let i = 0; i < 100; i++) {
-        value = wasm.integrate_exp(0.0, 1.0, 1.0, 1e6);
+    for (let i = 0; i < 1; i++) {
+        value = wasm.integrate_exp(0.0, 1.0, 1.0, nSteps);
     }
     const end = performance.now();
     console.log(end - start);

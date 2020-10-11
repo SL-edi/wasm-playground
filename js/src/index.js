@@ -1,7 +1,24 @@
 import rk4 from 'ode-rk4';
 
-const deriv = (dydt, y, t) => {
-  dydt[0] = -y[0];
+const deriv = (t, y) => -y;
+
+const integrateExp = (t0, y0, tFinal, nSteps) => {
+  const dt = (tFinal - t0) / nSteps;
+  let currenty = y0;
+  let currentt = t0;
+  for (let i = 0; i < nSteps; i++) {
+    currenty = rk4Step(currentt, currenty, dt, deriv);
+    currentt += dt;
+  }
+  return currenty;
+}
+
+const rk4Step = (t, y, dt, f) => {
+  const k1 = f(t, y);
+  const k2 = f(t + 0.5 * dt, y + 0.5 * dt * k1);
+  const k3 = f(t + 0.5 * dt, y + 0.5 * dt * k2);
+  const k4 = f(t + dt, y + dt * k3);
+  return y + (k1 + 2*k2 + 2*k3 + k4) * dt / 6.0;
 }
 
 const startBenchmark = () => {
@@ -10,13 +27,12 @@ const startBenchmark = () => {
 
   const start = performance.now();
   //Repeat the calculation many times to get good timing estimates
-  for (let i=0; i<10; i++) {
-    const t0 = 0;
-    const y0 = [1];
-    const tFinal = 1.0;
-    const nsteps = 1e6;
-    const integrator = rk4(y0, deriv, t0, tFinal/nsteps );
-    result = integrator.steps(nsteps).y;
+  const t0 = 0;
+  const y0 = 1;
+  const tFinal = 1.0;
+  const nSteps = +document.getElementById('nsteps-input').value;
+  for (let i=0; i<1; i++) {
+    result = integrateExp(t0, y0, tFinal, nSteps);
   }
   const end = performance.now()
   console.log(end-start);

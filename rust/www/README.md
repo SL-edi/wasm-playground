@@ -65,3 +65,18 @@ Unless you explicitly state otherwise, any contribution intentionally
 submitted for inclusion in the work by you, as defined in the Apache-2.0
 license, shall be dual licensed as above, without any additional terms or
 conditions.
+
+# Running the benchmark
+
+Compile the rust code with
+```
+wasm-pack build
+```
+
+Then go the www folder and run
+```
+npm i
+npm start
+```
+
+Open the browser window (default is localhost:8080), click START and enjoy

@@ -1,0 +1,54 @@
+﻿@page "/"
+
+<p><span>t0</span><input @bind="t0"></p>
+<p><span>y0</span><input @bind="y0"></p>
+<p><span>t final</span><input @bind="tFinal"></p>
+<p><span>Num steps</span><input @bind="nSteps"></p>
+
+<button @onclick="StartFunction">START</button>
+<span>@result</span>
+
+@code {
+    double t0 = 0.0;
+    double y0 = 1.0;
+    double tFinal = 1.0;
+    int nSteps = 1_000_000;
+    double result = 0.0;
+    public void StartFunction(){
+        DateTime start = DateTime.Now;
+        result = IntegrateExp(t0, tFinal, y0, nSteps).Last<double>();
+        DateTime end = DateTime.Now;
+        Console.WriteLine(end.Subtract(start).Milliseconds);
+    }
+    public interface IDerivativeFunction {
+        double Call(double t, double y);
+    }
+    class ExpDerivativeFunction: IDerivativeFunction {
+        public double Call(double t, double y) {
+            return -y;
+        }
+    };
+
+    public List<double> IntegrateExp(double t0, double tf, double y0, int nsteps) {
+        double dt = (tf - t0)/nsteps;
+        double y = y0;
+        double t = t0;
+        List<double> result = new List<double>();
+        result.Add(y0);
+        IDerivativeFunction f = new ExpDerivativeFunction();
+        for (int i=0; i< nsteps; i++) {
+            y = Rk4Step(t,y,dt,f);
+            result.Add(y);
+            t += dt;
+        }
+        return result;
+    }
+
+    public double Rk4Step(double t, double y, double dt, IDerivativeFunction f){
+        double k1 = f.Call(t, y);
+        double k2 = f.Call(t + 0.5*dt, y + 0.5*dt*k1);
+        double k3 = f.Call(t + 0.5*dt, y + 0.5*dt*k2);
+        double k4 = f.Call(t + dt, y + dt*k3);
+        return y + dt*(k1 + 2*k2 + 2*k3 + k4)/6.0;
+    }
+}

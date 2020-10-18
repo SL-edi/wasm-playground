@@ -4,13 +4,13 @@ const deriv = (t, y) => -y;
 
 const integrateExp = (t0, y0, tFinal, nSteps) => {
   const dt = (tFinal - t0) / nSteps;
-  let currenty = y0;
+  let yVals = [y0];
   let currentt = t0;
   for (let i = 0; i < nSteps; i++) {
-    currenty = rk4Step(currentt, currenty, dt, deriv);
+    yVals.push(rk4Step(currentt, yVals[i], dt, deriv));
     currentt += dt;
   }
-  return currenty;
+  return yVals;
 }
 
 const rk4Step = (t, y, dt, f) => {
@@ -41,9 +41,9 @@ const startBenchmark = () => {
 
   const expectedResult = Math.exp(-tFinal);
 
-  document.getElementById('result').innerHTML = result;
+  document.getElementById('result').innerHTML = result[nSteps];
   document.getElementById('expected').innerHTML = expectedResult;
-  document.getElementById('diff').innerHTML = result - expectedResult;
+  document.getElementById('diff').innerHTML = result[nSteps] - expectedResult;
 }
 
 window.startBenchmark = startBenchmark;
